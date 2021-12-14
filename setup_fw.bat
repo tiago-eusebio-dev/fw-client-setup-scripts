@@ -26,12 +26,19 @@ if %_install%==Y set INSTALL=1
 
 set FORCE=0
 set _force=N
+set PRI_ONLY=1
+set _pri_only=Y
 if %INSTALL% EQU 1 (
     @REM set _force=Y
     call set /p _force="> Force npm install? (y/N): "
+
+    @REM set _pri_only=Y
+    call set /p _pri_only="> Reinstall @primavera/@prototype only? (Y/n): "
 )
 if %_force%==y call set FORCE=1
 if %_force%==Y call set FORCE=1
+if %_pri_only%==n call set PRI_ONLY=0
+if %_pri_only%==N call set PRI_ONLY=0
 
 set LINT=0
 set _lint=N
@@ -66,12 +73,25 @@ if defined Arr[%x%] (
             call echo - Deleting package-lock.json...
             call del package-lock.json
         )
-    
-        if exist .\node_modules\ (
-            call echo - Deleting node_modules folder...
-            call rimraf .\node_modules
+
+        if %PRI_ONLY% EQU 1 (
+            call echo - Installing only @primavera/@prototype dependencies...
+            if exist .\node_modules\@primavera (
+                call echo - Deleting @primavera folder...
+                call rimraf .\node_modules\@primavera
+            )
+            if exist .\node_modules\@prototype (
+                call echo - Deleting @prototype folder...
+                call rimraf .\node_modules\@prototype
+            )
+        ) else (
+            call echo - Installing dependencies...
+            if exist .\node_modules\ (
+                call echo - Deleting node_modules folder...
+                call rimraf .\node_modules\@primavera
+            )
         )
-    
+        
         if %FORCE% EQU 1 (
             call echo - Installing dependencies in forced mode...
             call npm i --force
