@@ -57,11 +57,6 @@ if %INSTALL% EQU 1 (
         call rimraf .\node_modules
     )
 
-    if exist .\src\generated-code\ (
-        call echo - Deleting generated-code folder...
-        call rimraf .\src\generated-code
-    )
-
     if %FORCE% EQU 1 (
         call echo - Installing dependencies in forced mode...
         call npm i --force
