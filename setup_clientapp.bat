@@ -47,10 +47,10 @@ if %INSTALL% EQU 1 (
         call del package-lock.json
     )
 
-    if exist .\kendo-ui-license.txt (
-        call echo - Deleting kendo-ui-license.txt...
-        call del kendo-ui-license.txt
-    )
+    @REM if exist .\kendo-ui-license.txt (
+    @REM     call echo - Deleting kendo-ui-license.txt...
+    @REM     call del kendo-ui-license.txt
+    @REM )
 
     if exist .\node_modules\ (
         call echo - Deleting node_modules folder...
