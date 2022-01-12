@@ -88,7 +88,7 @@ if defined Arr[%x%] (
             call echo - Installing dependencies...
             if exist .\node_modules\ (
                 call echo - Deleting node_modules folder...
-                call rimraf .\node_modules\@primavera
+                call rimraf .\node_modules
             )
         )
         
