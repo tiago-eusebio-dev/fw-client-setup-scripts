@@ -5,40 +5,47 @@ echo.
 
 set Arr[0]=services
 set Arr[1]=localization
-set Arr[2]=components
-set Arr[3]=search
-set Arr[4]=ngcore
-set Arr[5]=pushnotifications
-set Arr[6]=attachments
-set Arr[7]=dashboard
-set Arr[8]=extensibility
-set Arr[9]=notifications
-set Arr[10]=printing
-set Arr[11]=qbuilder
-set Arr[12]=shell
-set Arr[13]=client-app-core
+set Arr[2]=themes
+set Arr[3]=components
+set Arr[4]=search
+set Arr[5]=ngcore
+set Arr[6]=pushnotifications
+set Arr[7]=attachments
+set Arr[8]=dashboard
+set Arr[9]=extensibility
+set Arr[10]=notifications
+set Arr[11]=printing
+set Arr[12]=qbuilder
+set Arr[13]=shell
+set Arr[14]=client-app-core
 
 set INSTALL=0
-set _install=Y
-set /p _install="> Run npm install? (Y/n): "
+set _install=N
+set /p _install="> Run npm install? (y/N): "
 if %_install%==y set INSTALL=1
 if %_install%==Y set INSTALL=1
 
+set UPDATE=1
+set _update=Y
+set /p _update="> Run npm update? (Y/n): "
+if %_update%==n set UPDATE=0
+if %_update%==N set UPDATE=0
+
 set FORCE=0
 set _force=N
-set PRI_ONLY=1
-set _pri_only=Y
+set PRI_ONLY=0
+set _pri_only=N
 if %INSTALL% EQU 1 (
     @REM set _force=Y
     call set /p _force="> Force npm install? (y/N): "
 
     @REM set _pri_only=Y
-    call set /p _pri_only="> Reinstall @primavera/@prototype only? (Y/n): "
+    call set /p _pri_only="> Reinstall @primavera/@prototype only? (y/N): "
 )
 if %_force%==y call set FORCE=1
 if %_force%==Y call set FORCE=1
-if %_pri_only%==n call set PRI_ONLY=0
-if %_pri_only%==N call set PRI_ONLY=0
+if %_pri_only%==y call set PRI_ONLY=1
+if %_pri_only%==Y call set PRI_ONLY=1
 
 set LINT=0
 set _lint=N
@@ -99,6 +106,11 @@ if defined Arr[%x%] (
             call echo - Installing dependencies...
             call npm i
         )
+    )
+
+    if %UPDATE% EQU 1 (
+        call echo - Running npm update...
+        call npm update
     )
 
     if %LINT% EQU 1 (
