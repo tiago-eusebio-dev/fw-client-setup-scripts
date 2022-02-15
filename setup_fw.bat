@@ -126,7 +126,7 @@ if defined Arr[%x%] (
     if %BUILD% EQU 1 (
         if exist .\node_modules\ (
             call echo - Building...
-            if %x% EQU 13 (
+            if %x% EQU 14 (
                 call npm run build
             ) else (
                 call npm run build:dev
