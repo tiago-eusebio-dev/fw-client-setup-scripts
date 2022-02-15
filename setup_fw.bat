@@ -40,7 +40,7 @@ if %INSTALL% EQU 1 (
     call set /p _force="> Force npm install? (y/N): "
 
     @REM set _pri_only=Y
-    call set /p _pri_only="> Reinstall @primavera/@prototype only? (y/N): "
+    call set /p _pri_only="> Reinstall PRIMAVERA/PROTOTYPE dependencies only? (y/N): "
 )
 if %_force%==y call set FORCE=1
 if %_force%==Y call set FORCE=1
@@ -82,7 +82,7 @@ if defined Arr[%x%] (
         )
 
         if %PRI_ONLY% EQU 1 (
-            call echo - Installing only @primavera/@prototype dependencies...
+            call echo - Installing only PRIMAVERA/PROTOTYPE dependencies...
             if exist .\node_modules\@primavera (
                 call echo - Deleting @primavera folder...
                 call rimraf .\node_modules\@primavera
@@ -106,11 +106,14 @@ if defined Arr[%x%] (
             call echo - Installing dependencies...
             call npm i
         )
+
+        call npm link @primavera/themes
     )
 
     if %UPDATE% EQU 1 (
         call echo - Running npm update...
         call npm update
+        call npm link @primavera/themes
     )
 
     if %LINT% EQU 1 (
