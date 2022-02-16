@@ -47,11 +47,6 @@ if %INSTALL% EQU 1 (
         call del package-lock.json
     )
 
-    @REM if exist .\kendo-ui-license.txt (
-    @REM     call echo - Deleting kendo-ui-license.txt...
-    @REM     call del kendo-ui-license.txt
-    @REM )
-
     if exist .\node_modules\ (
         call echo - Deleting node_modules folder...
         call rimraf .\node_modules
@@ -64,6 +59,8 @@ if %INSTALL% EQU 1 (
         call echo - Installing dependencies...
         call npm i
     )
+
+    call npm link @primavera/themes
 )
 
 if %LINT% EQU 1 (
@@ -76,11 +73,7 @@ if %LINT% EQU 1 (
 if %BUILD% EQU 1 (
     if exist .\node_modules\ (
         call echo - Building...
-        if %x% EQU 13 (
-            call npm run build
-        ) else (
-            call npm run build:dev
-        )
+        call npm run build:dev
     )
 )
 
