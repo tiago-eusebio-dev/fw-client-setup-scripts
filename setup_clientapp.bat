@@ -18,6 +18,12 @@ if %INSTALL% EQU 1 (
 if %_force%==y call set FORCE=1
 if %_force%==Y call set FORCE=1
 
+set UPDATE=0
+set _update=N
+set /p _update="> Run npm update? (y/N): "
+if %_update%==y set UPDATE=1
+if %_update%==Y set UPDATE=1
+
 set LINT=0
 set _lint=N
 set /p _lint="> Perform Linting? (y/N): "
@@ -40,6 +46,12 @@ if exist .\dist\ (
     call echo - Deleting dist folder...
     call rimraf .\dist
 )
+
+if %UPDATE% EQU 1 (
+    call echo - Running npm update...
+    call npm update
+    call npm link @primavera/themes
+) 
 
 if %INSTALL% EQU 1 (
     if exist .\package-lock.json (
