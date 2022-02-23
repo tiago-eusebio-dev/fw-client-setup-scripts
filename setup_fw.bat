@@ -17,7 +17,6 @@ set Arr[10]=notifications
 set Arr[11]=printing
 set Arr[12]=qbuilder
 set Arr[13]=shell
-@REM set Arr[14]=client-app-core
 
 set INSTALL=0
 set _install=N
@@ -126,11 +125,7 @@ if defined Arr[%x%] (
     if %BUILD% EQU 1 (
         if exist .\node_modules\ (
             call echo - Building...
-            @REM if %x% EQU 14 (
-            @REM     call npm run build
-            @REM ) else (
-                call npm run build:dev
-            @REM )
+            call npm run build:dev
         )
     ) 
     
