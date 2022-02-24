@@ -106,13 +106,19 @@ if defined Arr[%x%] (
             call npm i
         )
 
-        call npm link @primavera/themes
+        if %x% GEQ 3 {
+            call npm link @primavera/themes
+        }
+
     )
 
     if %UPDATE% EQU 1 (
         call echo - Running npm update...
         call npm update
-        call npm link @primavera/themes
+
+        if %x% GEQ 3 {
+            call npm link @primavera/themes
+        }
     )
 
     if %LINT% EQU 1 (
@@ -135,3 +141,14 @@ if defined Arr[%x%] (
 )
 echo.
 set /p=DONE! Hit ENTER to exit...
+
+
+
+@REM Operator | Description
+@REM EQU      | equal to
+@REM NEQ      | not equal to
+@REM LSS      | less than
+@REM LEQ      | less than or equal to
+@REM GTR      | greater than
+@REM GEQ      | greater than or equal to
+@REM not      | used to negate a condition.
