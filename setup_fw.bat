@@ -106,19 +106,26 @@ if defined Arr[%x%] (
             call npm i
         )
 
-        if %x% GEQ 3 {
+        if %x% GEQ 3 (
             call npm link @primavera/themes
-        }
-
+        ) else (
+            if %x% EQU 2 (
+                call npm link
+            )
+        )
     )
 
     if %UPDATE% EQU 1 (
         call echo - Running npm update...
         call npm update
 
-        if %x% GEQ 3 {
+        if %x% GEQ 3 (
             call npm link @primavera/themes
-        }
+        ) else (
+            if %x% EQU 2 (
+                call npm link
+            )
+        )
     )
 
     if %LINT% EQU 1 (
