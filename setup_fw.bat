@@ -110,7 +110,9 @@ if defined Arr[%x%] (
             call npm link @primavera/themes
         ) else (
             if %x% EQU 2 (
+                call cd src
                 call npm link
+                call cd ..
             )
         )
     )
@@ -123,7 +125,9 @@ if defined Arr[%x%] (
             call npm link @primavera/themes
         ) else (
             if %x% EQU 2 (
+                call cd src
                 call npm link
+                call cd ..
             )
         )
     )

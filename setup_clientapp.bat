@@ -4,8 +4,8 @@ ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
 echo.
 
 set INSTALL=0
-set _install=Y
-set /p _install="> Run npm install? (Y/n): "
+set _install=N
+set /p _install="> Run npm install? (y/N): "
 if %_install%==y set INSTALL=1
 if %_install%==Y set INSTALL=1
 
@@ -19,8 +19,8 @@ if %_force%==y call set FORCE=1
 if %_force%==Y call set FORCE=1
 
 set UPDATE=0
-set _update=N
-set /p _update="> Run npm update? (y/N): "
+set _update=Y
+set /p _update="> Run npm update? (Y/n): "
 if %_update%==y set UPDATE=1
 if %_update%==Y set UPDATE=1
 
