@@ -48,6 +48,7 @@ if exist .\dist\ (
 )
 
 if %UPDATE% EQU 1 (
+    call npm unlink @primavera/themes
     call echo - Running npm update...
     call npm update
     call npm link @primavera/themes
@@ -60,6 +61,7 @@ if %INSTALL% EQU 1 (
     )
 
     if exist .\node_modules\ (
+        call npm unlink @primavera/themes
         call echo - Deleting node_modules folder...
         call rimraf .\node_modules
     )

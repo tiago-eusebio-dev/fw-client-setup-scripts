@@ -90,8 +90,14 @@ if defined Arr[%x%] (
                 call echo - Deleting @prototype folder...
                 call rimraf .\node_modules\@prototype
             )
+            if %x% GEQ 3 (
+                call npm unlink @primavera/themes
+            )
         ) else (
             call echo - Installing dependencies...
+            if %x% GEQ 3 (
+                call npm unlink @primavera/themes
+            )
             if exist .\node_modules\ (
                 call echo - Deleting node_modules folder...
                 call rimraf .\node_modules
@@ -111,13 +117,17 @@ if defined Arr[%x%] (
         ) else (
             if %x% EQU 2 (
                 call cd src
-                call npm link
+                call npm link 
                 call cd ..
             )
         )
     )
 
     if %UPDATE% EQU 1 (
+        if %x% GEQ 3 (
+            call npm unlink @primavera/themes
+        )
+
         call echo - Running npm update...
         call npm update
 
@@ -126,7 +136,7 @@ if defined Arr[%x%] (
         ) else (
             if %x% EQU 2 (
                 call cd src
-                call npm link
+                call npm link 
                 call cd ..
             )
         )
