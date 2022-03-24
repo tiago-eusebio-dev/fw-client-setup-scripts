@@ -3,6 +3,8 @@
 ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
 echo.
 
+call npmrc elevation
+
 set Arr[0]=services
 set Arr[1]=localization
 set Arr[2]=themes
