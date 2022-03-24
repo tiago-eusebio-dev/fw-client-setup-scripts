@@ -101,7 +101,6 @@ if defined Arr[%x%] (
                 call npm unlink @primavera/themes
             )
         ) else (
-            call echo - Installing dependencies...
             if %x% GEQ 3 (
                 call npm unlink @primavera/themes
             )

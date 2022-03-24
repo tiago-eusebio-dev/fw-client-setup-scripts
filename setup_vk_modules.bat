@@ -88,7 +88,6 @@ if defined Arr[%x%] (
                 call rimraf .\node_modules\@prototype
             )
         ) else (
-            call echo - Installing dependencies...
             if exist .\node_modules\ (
                 call echo - Deleting node_modules folder...
                 call rimraf .\node_modules
