@@ -93,3 +93,8 @@ if %BUILD% EQU 1 (
 
 echo.
 set /p=DONE! Hit ENTER to exit...
+
+
+@REM  *Review date: 11/04/2022*
+@REM  *Tiago Eusébio @ INT-C*
+@REM  *© PRIMAVERA BSS*
