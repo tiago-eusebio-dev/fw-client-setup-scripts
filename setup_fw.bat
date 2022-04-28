@@ -1,7 +1,7 @@
 @echo off
 
-ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
-echo.
+@REM ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
+@REM echo.
 
 @REM Runs the script as Administrator (if not already running as Administrator)
 @REM This is needed in order to change the npmrc
@@ -98,11 +98,13 @@ if defined Arr[%x%] (
                 call rimraf .\node_modules\@prototype
             )
             if %x% GEQ 3 (
+                call echo - Unlinking @primavera/themes
                 call npm unlink @primavera/themes
             )
         ) else (
             call echo - Installing dependencies...
             if %x% GEQ 3 (
+                call echo - Unlinking @primavera/themes
                 call npm unlink @primavera/themes
             )
             if exist .\node_modules\ (
@@ -136,6 +138,7 @@ if defined Arr[%x%] (
 
     if %UPDATE% EQU 1 (
         if %x% GEQ 3 (
+            call echo - Unlinking @primavera/themes
             call npm unlink @primavera/themes
         )
 
