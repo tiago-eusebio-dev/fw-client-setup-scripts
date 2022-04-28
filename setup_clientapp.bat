@@ -1,7 +1,7 @@
 @echo off
 
-ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
-echo.
+@REM ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
+@REM echo.
 
 set INSTALL=0
 set _install=N
