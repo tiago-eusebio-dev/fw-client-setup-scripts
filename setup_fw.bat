@@ -5,10 +5,10 @@ echo.
 
 @REM Runs the script as Administrator (if not already running as Administrator)
 @REM This is needed in order to change the npmrc
-set "params=%*"
-cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
+@REM set "params=%*"
+@REM cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 
-call npmrc elevation
+@REM call npmrc elevation
 
 set Arr[0]=services
 set Arr[1]=localization
@@ -101,6 +101,7 @@ if defined Arr[%x%] (
                 call npm unlink @primavera/themes
             )
         ) else (
+            call echo - Installing dependencies...
             if %x% GEQ 3 (
                 call npm unlink @primavera/themes
             )
@@ -108,6 +109,10 @@ if defined Arr[%x%] (
                 call echo - Deleting node_modules folder...
                 call rimraf .\node_modules
             )
+            if exist .\.angular\ (
+                call echo - Deleting .angular folder...
+                call rimraf .\.angular
+            )		
         )
         
         if %FORCE% EQU 1 (
@@ -179,8 +184,3 @@ set /p=DONE! Hit ENTER to exit...
 @REM GTR      | greater than
 @REM GEQ      | greater than or equal to
 @REM not      | used to negate a condition.
-
-
-@REM  *Review date: 11/04/2022*
-@REM  *Tiago Eusébio @ INT-C*
-@REM  *© PRIMAVERA BSS*
