@@ -12,8 +12,9 @@ call npmrc valuekeep
 
 set Arr[0]=ngbusinesscore
 set Arr[1]=ngmaintenance
-set Arr[2]=vkplanner
-set Arr[3]=webcomponents
+set Arr[2]=ngplanner
+set Arr[3]=vkplanner
+set Arr[4]=webcomponents
 
 set INSTALL=0
 set _install=N
@@ -139,7 +140,3 @@ set /p=DONE! Hit ENTER to exit...
 @REM GTR      | greater than
 @REM GEQ      | greater than or equal to
 @REM not      | used to negate a condition.
-
-@REM  *Review date: 11/04/2022*
-@REM  *Tiago Eusébio @ INT-C*
-@REM  *© PRIMAVERA BSS*
