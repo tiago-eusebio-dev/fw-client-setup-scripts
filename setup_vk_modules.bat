@@ -1,14 +1,14 @@
 @echo off
 
-ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
-echo.
+@REM ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
+@REM echo.
 
 @REM Runs the script as Administrator (if not already running as Administrator)
 @REM This is needed in order to change the npmrc
-set "params=%*"
-cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
+@REM set "params=%*"
+@REM cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 
-call npmrc valuekeep
+@REM call npmrc elevation
 
 set Arr[0]=ngbusinesscore
 set Arr[1]=ngmaintenance
@@ -23,8 +23,8 @@ if %_install%==y set INSTALL=1
 if %_install%==Y set INSTALL=1
 
 set UPDATE=0
-set _update=Y
-set /p _update="> Run npm update? (Y/n): "
+set _update=N
+set /p _update="> Run npm update? (y/N): "
 if %_update%==y set UPDATE=1
 if %_update%==Y set UPDATE=1
 
@@ -55,6 +55,12 @@ set _build=N
 set /p _build="> Build? (y/N): "
 if %_build%==y set BUILD=1
 if %_build%==Y set BUILD=1
+
+set TEST=0
+set _test=N
+set /p _test="> Test? (y/N): "
+if %_test%==y set TEST=1
+if %_test%==Y set TEST=1
 
 echo.
 set x=0
@@ -88,11 +94,24 @@ if defined Arr[%x%] (
                 call echo - Deleting @prototype folder...
                 call rimraf .\node_modules\@prototype
             )
+            if %x% GEQ 3 (
+                call echo - Unlinking @primavera/themes
+                call npm unlink @primavera/themes
+            )
         ) else (
+            call echo - Installing dependencies...
+            if %x% GEQ 3 (
+                call echo - Unlinking @primavera/themes
+                call npm unlink @primavera/themes
+            )
             if exist .\node_modules\ (
                 call echo - Deleting node_modules folder...
                 call rimraf .\node_modules
             )
+            if exist .\.angular\ (
+                call echo - Deleting .angular folder...
+                call rimraf .\.angular
+            )		
         )
         
         if %FORCE% EQU 1 (
@@ -102,11 +121,36 @@ if defined Arr[%x%] (
             call echo - Installing dependencies...
             call npm i
         )
+
+        if %x% GEQ 3 (
+            call npm link @primavera/themes
+        ) else (
+            if %x% EQU 2 (
+                call cd src
+                call npm link 
+                call cd ..
+            )
+        )
     )
 
     if %UPDATE% EQU 1 (
+        if %x% GEQ 3 (
+            call echo - Unlinking @primavera/themes
+            call npm unlink @primavera/themes
+        )
+
         call echo - Running npm update...
         call npm update
+
+        if %x% GEQ 3 (
+            call npm link @primavera/themes
+        ) else (
+            if %x% EQU 2 (
+                call cd src
+                call npm link 
+                call cd ..
+            )
+        )
     )
 
     if %LINT% EQU 1 (
@@ -120,6 +164,13 @@ if defined Arr[%x%] (
         if exist .\node_modules\ (
             call echo - Building...
             call npm run build:dev
+        )
+    ) 
+
+    if %TEST% EQU 1 (
+        if exist .\node_modules\ (
+            call echo - Testing...
+            call npm run test:prod
         )
     ) 
     
@@ -140,3 +191,8 @@ set /p=DONE! Hit ENTER to exit...
 @REM GTR      | greater than
 @REM GEQ      | greater than or equal to
 @REM not      | used to negate a condition.
+
+
+@REM  *Review date: 27/06/2022*
+@REM  *Tiago Eusébio @ INT-C*
+@REM  *© PRIMAVERA BSS*

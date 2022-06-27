@@ -19,8 +19,8 @@ if %_force%==y call set FORCE=1
 if %_force%==Y call set FORCE=1
 
 set UPDATE=0
-set _update=Y
-set /p _update="> Run npm update? (Y/n): "
+set _update=N
+set /p _update="> Run npm update? (y/N): "
 if %_update%==y set UPDATE=1
 if %_update%==Y set UPDATE=1
 
@@ -68,11 +68,6 @@ if %INSTALL% EQU 1 (
         call rimraf .\node_modules
     )
 
-    if exist .\.angular\ (
-        call echo - Deleting .angular...
-        call rimraf .\.angular
-    )
-
     if %FORCE% EQU 1 (
         call echo - Installing dependencies in forced mode...
         call npm i --force
@@ -102,6 +97,6 @@ echo.
 set /p=DONE! Hit ENTER to exit...
 
 
-@REM  *Review date: 11/04/2022*
+@REM  *Review date: 27/06/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*

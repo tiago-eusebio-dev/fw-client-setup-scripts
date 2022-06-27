@@ -32,8 +32,8 @@ if %_install%==y set INSTALL=1
 if %_install%==Y set INSTALL=1
 
 set UPDATE=0
-set _update=Y
-set /p _update="> Run npm update? (Y/n): "
+set _update=N
+set /p _update="> Run npm update? (y/N): "
 if %_update%==y set UPDATE=1
 if %_update%==Y set UPDATE=1
 
@@ -64,6 +64,12 @@ set _build=N
 set /p _build="> Build? (y/N): "
 if %_build%==y set BUILD=1
 if %_build%==Y set BUILD=1
+
+set TEST=0
+set _test=N
+set /p _test="> Test? (y/N): "
+if %_test%==y set TEST=1
+if %_test%==Y set TEST=1
 
 echo.
 set x=0
@@ -169,6 +175,13 @@ if defined Arr[%x%] (
             call npm run build:dev
         )
     ) 
+
+    if %TEST% EQU 1 (
+        if exist .\node_modules\ (
+            call echo - Testing...
+            call npm run test:prod
+        )
+    ) 
     
     call cd ..
     set /a x+=1
@@ -189,6 +202,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 11/04/2022*
+@REM  *Review date: 27/06/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*
