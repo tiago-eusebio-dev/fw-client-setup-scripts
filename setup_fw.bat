@@ -177,6 +177,10 @@ if defined Arr[%x%] (
     ) 
 
     if %TEST% EQU 1 (
+        if exist .\.coverage\ (
+            call echo - Deleting .coverage folder...
+            call rimraf .\.coverage
+        )
         if exist .\node_modules\ (
             call echo - Testing...
             call npm run test:prod
