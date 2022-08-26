@@ -25,6 +25,13 @@ set Arr[11]=printing
 set Arr[12]=qbuilder
 set Arr[13]=shell
 
+set ArrLen=0
+:Loop 
+if defined ARR[%ArrLen%] ( 
+    set /a ArrLen+=1
+    GOTO :Loop 
+)
+
 set INSTALL=0
 set _install=N
 set /p _install="> Run npm install? (y/N): "
@@ -73,12 +80,14 @@ if %_test%==Y set TEST=1
 
 echo.
 set x=0
+set position=0
 
 :SymLoop
 if defined Arr[%x%] (
     call set MODULE=%%Arr[%x%]%%
+    call set /a position+=1
     call echo ####################################################################
-    call echo SETTING UP %%MODULE%%
+    call echo SETTING UP %%MODULE%% - %%position%% of %%ArrLen%%
     call echo ####################################################################
     call cd %%MODULE%%
 
@@ -206,6 +215,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 27/06/2022*
+@REM  *Review date: 26/08/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*
