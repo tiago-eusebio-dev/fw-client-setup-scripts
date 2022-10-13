@@ -29,17 +29,17 @@ set /p _rem_dist="> Delete dist folder? (Y/n): "
 if %_rem_dist%==y set REM_DIST=1
 if %_rem_dist%==Y set REM_DIST=1
 
+set REM_COVERAGE=0
+set _rem_coverage=N
+set /p _rem_coverage="> Delete .coverage folder? (y/N): "
+if %_rem_coverage%==y set REM_COVERAGE=1
+if %_rem_coverage%==Y set REM_COVERAGE=1
+
 set INSTALL=0
 set _install=N
 set /p _install="> Run npm install? (y/N): "
 if %_install%==y set INSTALL=1
 if %_install%==Y set INSTALL=1
-
-set UPDATE=0
-set _update=N
-set /p _update="> Run npm update? (y/N): "
-if %_update%==y set UPDATE=1
-if %_update%==Y set UPDATE=1
 
 set FORCE=0
 set _force=N
@@ -56,6 +56,14 @@ if %_force%==y call set FORCE=1
 if %_force%==Y call set FORCE=1
 if %_pri_only%==y call set PRI_ONLY=1
 if %_pri_only%==Y call set PRI_ONLY=1
+
+set UPDATE=0
+set _update=N
+if %INSTALL% EQU 0 (
+    set /p _update="> Run npm update? (y/N): "
+)
+if %_update%==y set UPDATE=1
+if %_update%==Y set UPDATE=1
 
 set LINT=0
 set _lint=N
@@ -74,12 +82,6 @@ set _test=N
 set /p _test="> Test? (y/N): "
 if %_test%==y set TEST=1
 if %_test%==Y set TEST=1
-
-set REM_COVERAGE=0
-set _rem_coverage=N
-set /p _rem_coverage="> Delete .coverage folder? (y/N): "
-if %_rem_coverage%==y set REM_COVERAGE=1
-if %_rem_coverage%==Y set REM_COVERAGE=1
 
 FOR /F "tokens=*" %%g IN ('npm list -g --depth=0 rimraf') do (SET rimraf_status=%%g)
 if "x%rimraf_status:rimraf=%" == "x%rimraf_status%" (
@@ -105,6 +107,13 @@ if defined Arr[%x%] (
         if exist .\dist\ (
             call echo - Deleting dist folder...
             call rimraf .\dist
+        )
+    )
+
+    if %REM_COVERAGE% EQU 1 (
+        if exist .\.coverage\ (
+            call echo - Deleting .coverage folder...
+            call rimraf .\.coverage
         )
     )
 
@@ -208,14 +217,6 @@ if defined Arr[%x%] (
         )
     ) 
 
-    if %REM_COVERAGE% EQU 1 (
-        if exist .\.coverage\ (
-            call echo - Deleting .coverage folder...
-            call rimraf .\.coverage
-        )
-    )
-    
-    
     call cd ..
     set /a x+=1
     goto :SymLoop
