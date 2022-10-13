@@ -134,13 +134,13 @@ if defined Arr[%x%] (
                 call rimraf .\node_modules\@prototype
             )
             if %x% GEQ 3 (
-                call echo - Unlinking @primavera/themes
+                call echo - Unlinking @primavera/themes (it is normal if it throws an EPERM error)
                 call npm unlink @primavera/themes
             )
         ) else (
             call echo - Installing dependencies...
             if %x% GEQ 3 (
-                call echo - Unlinking @primavera/themes
+                call echo - Unlinking @primavera/themes (it is normal if it throws an EPERM error)
                 call npm unlink @primavera/themes
             )
             if exist .\node_modules\ (
