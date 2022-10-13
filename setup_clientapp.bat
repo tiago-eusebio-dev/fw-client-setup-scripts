@@ -10,8 +10,8 @@ if %_rem_dist%==y set REM_DIST=1
 if %_rem_dist%==Y set REM_DIST=1
 
 set REM_COVERAGE=0
-set _rem_coverage=N
-set /p _rem_coverage="> Delete .coverage folder? (y/N): "
+set _rem_coverage=Y
+set /p _rem_coverage="> Delete .coverage folder? (Y/n): "
 if %_rem_coverage%==y set REM_COVERAGE=1
 if %_rem_coverage%==Y set REM_COVERAGE=1
 
