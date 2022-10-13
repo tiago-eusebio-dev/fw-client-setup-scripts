@@ -90,6 +90,13 @@ set /p _rem_coverage="> Delete .coverage folder? (y/N): "
 if %_rem_coverage%==y set REM_COVERAGE=1
 if %_rem_coverage%==Y set REM_COVERAGE=1
 
+FOR /F "tokens=*" %%g IN ('npm list -g --depth=0 rimraf') do (SET rimraf_status=%%g)
+if "x%rimraf_status:rimraf=%" == "x%rimraf_status%" (
+    call echo.
+    call echo - Installing rimraf globally...
+    call npm i -g rimraf
+)
+
 echo.
 set x=0
 set position=0
@@ -237,6 +244,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 10/10/2022*
+@REM  *Review date: 13/10/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*

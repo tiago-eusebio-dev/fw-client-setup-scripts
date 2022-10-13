@@ -36,6 +36,13 @@ set /p _build="> Build? (y/N): "
 if %_build%==y set BUILD=1
 if %_build%==Y set BUILD=1
 
+FOR /F "tokens=*" %%g IN ('npm list -g --depth=0 rimraf') do (SET rimraf_status=%%g)
+if "x%rimraf_status:rimraf=%" == "x%rimraf_status%" (
+    call echo.
+    call echo - Installing rimraf globally...
+    call npm i -g rimraf
+)
+
 echo.
 
 call echo ####################################################################

@@ -23,6 +23,12 @@ if defined ARR[%ArrLen%] (
     GOTO :Loop 
 )
 
+set REM_DIST=0
+set _rem_dist=Y
+set /p _rem_dist="> Delete dist folder? (Y/n): "
+if %_rem_dist%==y set REM_DIST=1
+if %_rem_dist%==Y set REM_DIST=1
+
 set INSTALL=0
 set _install=N
 set /p _install="> Run npm install? (y/N): "
@@ -69,6 +75,19 @@ set /p _test="> Test? (y/N): "
 if %_test%==y set TEST=1
 if %_test%==Y set TEST=1
 
+set REM_COVERAGE=0
+set _rem_coverage=N
+set /p _rem_coverage="> Delete .coverage folder? (y/N): "
+if %_rem_coverage%==y set REM_COVERAGE=1
+if %_rem_coverage%==Y set REM_COVERAGE=1
+
+FOR /F "tokens=*" %%g IN ('npm list -g --depth=0 rimraf') do (SET rimraf_status=%%g)
+if "x%rimraf_status:rimraf=%" == "x%rimraf_status%" (
+    call echo.
+    call echo - Installing rimraf globally...
+    call npm i -g rimraf
+)
+
 echo.
 set x=0
 set position=0
@@ -82,9 +101,11 @@ if defined Arr[%x%] (
     call echo ####################################################################
     call cd %%MODULE%%
 
-    if exist .\dist\ (
-        call echo - Deleting dist folder...
-        call rimraf .\dist
+    if %REM_DIST% EQU 1 (
+        if exist .\dist\ (
+            call echo - Deleting dist folder...
+            call rimraf .\dist
+        )
     )
 
     if %INSTALL% EQU 1 (
@@ -177,11 +198,23 @@ if defined Arr[%x%] (
     ) 
 
     if %TEST% EQU 1 (
+        if exist .\.coverage\ (
+            call echo - Deleting .coverage folder...
+            call rimraf .\.coverage
+        )
         if exist .\node_modules\ (
             call echo - Testing...
             call npm run test:prod
         )
     ) 
+
+    if %REM_COVERAGE% EQU 1 (
+        if exist .\.coverage\ (
+            call echo - Deleting .coverage folder...
+            call rimraf .\.coverage
+        )
+    )
+    
     
     call cd ..
     set /a x+=1
@@ -202,6 +235,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 26/08/2022*
+@REM  *Review date: 13/10/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*
