@@ -85,7 +85,7 @@ if %REM_COVERAGE% EQU 1 (
 )
 
 if %UPDATE% EQU 1 (
-    call echo - Unlinking @primavera/themes (it is normal if it throws an EPERM error)
+    call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
     call npm unlink @primavera/themes
     call echo - Running npm update...
     call npm update
@@ -99,7 +99,7 @@ if %INSTALL% EQU 1 (
     )
 
     if exist .\node_modules\ (
-        call echo - Unlinking @primavera/themes (it is normal if it throws an EPERM error)
+        call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
         call npm unlink @primavera/themes
         call echo - Deleting node_modules folder...
         call rimraf .\node_modules
@@ -150,6 +150,6 @@ echo.
 set /p=DONE! Hit ENTER to exit...
 
 
-@REM  *Review date: 13/10/2022*
+@REM  *Review date: 17/10/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*

@@ -134,13 +134,13 @@ if defined Arr[%x%] (
                 call rimraf .\node_modules\@prototype
             )
             if %x% GEQ 3 (
-                call echo - Unlinking @primavera/themes (it is normal if it throws an EPERM error)
+                call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
                 call npm unlink @primavera/themes
             )
         ) else (
             call echo - Installing dependencies...
             if %x% GEQ 3 (
-                call echo - Unlinking @primavera/themes (it is normal if it throws an EPERM error)
+                call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
                 call npm unlink @primavera/themes
             )
             if exist .\node_modules\ (
@@ -236,6 +236,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 13/10/2022*
+@REM  *Review date: 17/10/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*
