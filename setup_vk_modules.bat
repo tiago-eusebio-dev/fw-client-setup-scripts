@@ -133,16 +133,8 @@ if defined Arr[%x%] (
                 call echo - Deleting @prototype folder...
                 call rimraf .\node_modules\@prototype
             )
-            if %x% GEQ 3 (
-                call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
-                call npm unlink @primavera/themes
-            )
         ) else (
             call echo - Installing dependencies...
-            if %x% GEQ 3 (
-                call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
-                call npm unlink @primavera/themes
-            )
             if exist .\node_modules\ (
                 call echo - Deleting node_modules folder...
                 call rimraf .\node_modules
@@ -160,36 +152,11 @@ if defined Arr[%x%] (
             call echo - Installing dependencies...
             call npm i
         )
-
-        if %x% GEQ 3 (
-            call npm link @primavera/themes
-        ) else (
-            if %x% EQU 2 (
-                call cd src
-                call npm link 
-                call cd ..
-            )
-        )
     )
 
     if %UPDATE% EQU 1 (
-        if %x% GEQ 3 (
-            call echo - Unlinking @primavera/themes
-            call npm unlink @primavera/themes
-        )
-
         call echo - Running npm update...
         call npm update
-
-        if %x% GEQ 3 (
-            call npm link @primavera/themes
-        ) else (
-            if %x% EQU 2 (
-                call cd src
-                call npm link 
-                call cd ..
-            )
-        )
     )
 
     if %LINT% EQU 1 (
@@ -236,6 +203,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 17/10/2022*
+@REM  *Review date: 24/11/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*
