@@ -45,8 +45,8 @@ if %_rem_coverage%==y set REM_COVERAGE=1
 if %_rem_coverage%==Y set REM_COVERAGE=1
 
 set INSTALL=0
-set _install=N
-set /p _install="> Run npm install? (y/N): "
+set _install=Y
+set /p _install="> Run npm install? (Y/n): "
 if %_install%==y set INSTALL=1
 if %_install%==Y set INSTALL=1
 
@@ -245,6 +245,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 17/10/2022*
+@REM  *Review date: 05/12/2022*
 @REM  *Tiago Eusébio @ INT-C*
 @REM  *© PRIMAVERA BSS*
