@@ -156,9 +156,11 @@ if defined Arr[%x%] (
         
         if %FORCE% EQU 1 (
             call echo - Installing dependencies in forced mode...
+            call npm cache clean --force
             call npm i --force
         ) else (
             call echo - Installing dependencies...
+            call npm cache clean --force
             call npm i
         )
 
@@ -175,6 +177,7 @@ if defined Arr[%x%] (
 
     if %UPDATE% EQU 1 (
         call echo - Running npm update...
+        call npm cache clean --force
         call npm update
 
         if %x% GEQ 3 (
@@ -232,6 +235,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 15/03/2023*
-@REM  *Tiago Eusébio @ INT-C*
+@REM  *Review date: 12/04/2023*
+@REM  *Tiago Eusébio @ TOEC*
 @REM  *© PRIMAVERA BSS*

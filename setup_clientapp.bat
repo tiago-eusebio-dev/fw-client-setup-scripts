@@ -88,6 +88,7 @@ if %UPDATE% EQU 1 (
     call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
     call npm unlink @primavera/themes
     call echo - Running npm update...
+    call npm cache clean --force
     call npm update
     call npm link @primavera/themes
 ) 
@@ -112,9 +113,11 @@ if %INSTALL% EQU 1 (
 
     if %FORCE% EQU 1 (
         call echo - Installing dependencies in forced mode...
+        call npm cache clean --force
         call npm i --force
     ) else (
         call echo - Installing dependencies...
+        call npm cache clean --force
         call npm i
     )
 
@@ -150,6 +153,6 @@ echo.
 set /p=DONE! Hit ENTER to exit...
 
 
-@REM  *Review date: 05/12/2022*
-@REM  *Tiago Eusébio @ INT-C*
+@REM  *Review date: 12/04/2023*
+@REM  *Tiago Eusébio @ TOEC*
 @REM  *© PRIMAVERA BSS*
