@@ -133,7 +133,12 @@ if defined Arr[%x%] (
         )
 
         if %PRI_ONLY% EQU 1 (
-            call echo - Installing only PRIMAVERA/PROTOTYPE dependencies...
+            if %FORCE% EQU 1 (
+                call echo - Installing only PRIMAVERA/PROTOTYPE dependencies in forced mode...
+            ) else (
+                call echo - Installing only PRIMAVERA/PROTOTYPE dependencies...
+            )
+            
             if exist .\node_modules\@primavera (
                 call echo - Deleting @primavera folder...
                 call rimraf .\node_modules\@primavera
@@ -143,7 +148,12 @@ if defined Arr[%x%] (
                 call rimraf .\node_modules\@prototype
             )
         ) else (
-            call echo - Installing dependencies...
+            if %FORCE% EQU 1 (
+                call echo - Installing dependencies in foced mode...
+            ) else (
+                call echo - Installing dependencies...
+            )
+
             if exist .\node_modules\ (
                 call echo - Deleting node_modules folder...
                 call rimraf .\node_modules
@@ -155,24 +165,22 @@ if defined Arr[%x%] (
         )
         
         if %FORCE% EQU 1 (
-            call echo - Installing dependencies in forced mode...
             call npm cache clean --force
             call npm i --force
         ) else (
-            call echo - Installing dependencies...
             call npm cache clean --force
             call npm i
         )
 
-        if %x% GEQ 3 (
-            call npm link @primavera/themes
-        ) else (
-            if %x% EQU 2 (
-                call cd src
-                call npm link 
-                call cd ..
-            )
-        )
+        @REM if %x% GEQ 3 (
+        @REM     call npm link @primavera/themes
+        @REM ) else (
+        @REM     if %x% EQU 2 (
+        @REM         call cd src
+        @REM         call npm link 
+        @REM         call cd ..
+        @REM     )
+        @REM )
     )
 
     if %UPDATE% EQU 1 (
@@ -180,15 +188,15 @@ if defined Arr[%x%] (
         call npm cache clean --force
         call npm update
 
-        if %x% GEQ 3 (
-            call npm link @primavera/themes
-        ) else (
-            if %x% EQU 2 (
-                call cd src
-                call npm link 
-                call cd ..
-            )
-        )
+        @REM if %x% GEQ 3 (
+        @REM     call npm link @primavera/themes
+        @REM ) else (
+        @REM     if %x% EQU 2 (
+        @REM         call cd src
+        @REM         call npm link 
+        @REM         call cd ..
+        @REM     )
+        @REM )
     )
 
     if %LINT% EQU 1 (
@@ -235,6 +243,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 12/04/2023*
+@REM  *Review date: 20/04/2023*
 @REM  *Tiago Eusébio @ TOEC*
 @REM  *© PRIMAVERA BSS*
