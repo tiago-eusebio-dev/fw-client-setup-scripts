@@ -1,29 +1,20 @@
 @echo off
 
-@REM ipconfig|find/i "vpn_primavera" || rasdial vpn_primavera
-@REM echo.
-
-@REM Runs the script as Administrator (if not already running as Administrator)
-@REM This is needed in order to change the npmrc
-@REM set "params=%*"
-@REM cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
-
-@REM call npmrc elevation
-
 set Arr[0]=services
 set Arr[1]=localization
 set Arr[2]=themes
 set Arr[3]=components
-set Arr[4]=search
-set Arr[5]=ngcore
-set Arr[6]=pushnotifications
-set Arr[7]=attachments
-set Arr[8]=dashboard
-set Arr[9]=extensibility
-set Arr[10]=notifications
-set Arr[11]=printing
-set Arr[12]=qbuilder
-set Arr[13]=shell
+set Arr[4]=forms
+set Arr[5]=search
+set Arr[6]=ngcore
+set Arr[7]=pushnotifications
+set Arr[8]=attachments
+set Arr[9]=dashboard
+set Arr[10]=extensibility
+set Arr[11]=notifications
+set Arr[12]=printing
+set Arr[13]=qbuilder
+set Arr[14]=shell
 
 set ArrLen=0
 :Loop 
@@ -55,10 +46,8 @@ set _force=N
 set PRI_ONLY=0
 set _pri_only=N
 if %INSTALL% EQU 1 (
-    @REM set _force=Y
     call set /p _force="> Force npm install? (y/N): "
 
-    @REM set _pri_only=Y
     call set /p _pri_only="> Reinstall PRIMAVERA/PROTOTYPE dependencies only? (y/N): "
 )
 if %_force%==y call set FORCE=1
@@ -111,6 +100,15 @@ if defined Arr[%x%] (
     call echo SETTING UP %%MODULE%% - %%position%% of %%ArrLen%%
     call echo ####################################################################
     call cd %%MODULE%%
+    
+    call set "LINK="
+    if %x% EQU 2 set LINK=1
+    if %x% EQU 4 set LINK=1
+
+    if exist .\.angular\ (
+        call echo - Deleting .angular folder...
+        call rimraf .\.angular
+    )
 
     if %REM_DIST% EQU 1 (
         if exist .\dist\ (
@@ -152,10 +150,6 @@ if defined Arr[%x%] (
                 call echo - Deleting node_modules folder...
                 call rimraf .\node_modules
             )
-            if exist .\.angular\ (
-                call echo - Deleting .angular folder...
-                call rimraf .\.angular
-            )
 
              if %FORCE% EQU 1 (
                 call echo - Installing dependencies in foced mode...
@@ -172,15 +166,17 @@ if defined Arr[%x%] (
             call npm i
         )
 
-        @REM if %x% GEQ 3 (
-        @REM     call npm link @primavera/themes
-        @REM ) else (
-        @REM     if %x% EQU 2 (
-        @REM         call cd src
-        @REM         call npm link 
-        @REM         call cd ..
-        @REM     )
-        @REM )
+        if defined LINK (
+            call echo - Linking %%MODULE%%...
+            call cd src
+            call npm link
+            call cd ..
+        )
+        
+        if %x% GTR 2 (
+            call echo - Linking to themes...
+            call npm link @primavera/themes
+        )
     )
 
     if %UPDATE% EQU 1 (
@@ -188,15 +184,17 @@ if defined Arr[%x%] (
         call npm cache clean --force
         call npm update
 
-        @REM if %x% GEQ 3 (
-        @REM     call npm link @primavera/themes
-        @REM ) else (
-        @REM     if %x% EQU 2 (
-        @REM         call cd src
-        @REM         call npm link 
-        @REM         call cd ..
-        @REM     )
-        @REM )
+        if defined LINK (
+            call echo - Linking %%MODULE%%...
+            call cd src
+            call npm link
+            call cd ..
+        )
+        
+        if %x% GTR 2 (
+            call echo - Linking to themes...
+            call npm link @primavera/themes
+        )
     )
 
     if %LINT% EQU 1 (
@@ -243,6 +241,6 @@ set /p=DONE! Hit ENTER to exit...
 @REM not      | used to negate a condition.
 
 
-@REM  *Review date: 21/04/2023*
+@REM  *Review date: 06/07/2023*
 @REM  *Tiago Eusébio @ TOEC*
 @REM  *© PRIMAVERA BSS*

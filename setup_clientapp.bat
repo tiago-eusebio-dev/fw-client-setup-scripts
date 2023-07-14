@@ -56,11 +56,23 @@ set /p _test="> Test? (y/N): "
 if %_test%==y set TEST=1
 if %_test%==Y set TEST=1
 
-FOR /F "tokens=*" %%g IN ('npm list -g --depth=0 rimraf') do (SET rimraf_status=%%g)
+FOR /F "tokens=*" %%g IN ('npm list -g --depth=0 rimraf') DO (SET rimraf_status=%%g)
 if "x%rimraf_status:rimraf=%" == "x%rimraf_status%" (
     call echo.
     call echo - Installing rimraf globally...
     call npm i -g rimraf
+)
+
+FOR /F "tokens=* USEBACKQ" %%F IN (
+    `npm list -g @primavera/themes --depth=0 ^| findstr /i "@primavera/themes" ^> nul ^&^& echo 1 ^|^| echo 0`
+) DO (
+    SET LINKED_THEMES=%%F
+)
+
+FOR /F "tokens=* USEBACKQ" %%F IN (
+    `npm list -g @primavera/forms --depth=0 ^| findstr /i "@primavera/forms" ^> nul ^&^& echo 1 ^|^| echo 0`
+) DO (
+    SET LINKED_FORMS=%%F
 )
 
 echo.
@@ -69,13 +81,17 @@ call echo ####################################################################
 call echo SETTING UP ClientApp
 call echo ####################################################################
 
+if exist .\.angular\ (
+    call echo - Deleting .angular folder...
+    call rimraf .\.angular
+)
+
 if %REM_DIST% EQU 1 (
     if exist .\dist\ (
         call echo - Deleting dist folder...
         call rimraf .\dist
     )
 )
-
 
 if %REM_COVERAGE% EQU 1 (
     if exist .\.coverage\ (
@@ -85,12 +101,19 @@ if %REM_COVERAGE% EQU 1 (
 )
 
 if %UPDATE% EQU 1 (
-    call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
-    call npm unlink @primavera/themes
     call echo - Running npm update...
     call npm cache clean --force
     call npm update
-    call npm link @primavera/themes
+
+    if %LINKED_THEMES% EQU 1 (
+        call echo - Linking to @primavera/themes...
+        call npm link @primavera/themes
+    )
+
+    if %LINKED_FORMS% EQU 1 (
+        call echo - Linking to @primavera/forms...
+        call npm link @primavera/forms
+    )
 ) 
 
 if %INSTALL% EQU 1 (
@@ -100,8 +123,6 @@ if %INSTALL% EQU 1 (
     )
 
     if exist .\node_modules\ (
-        call echo "- Unlinking @primavera/themes (it is normal if it throws an EPERM error)"
-        call npm unlink @primavera/themes
         call echo - Deleting node_modules folder...
         call rimraf .\node_modules
     )
@@ -121,7 +142,15 @@ if %INSTALL% EQU 1 (
         call npm i
     )
 
-    call npm link @primavera/themes
+    if %LINKED_THEMES% EQU 1 (
+        call echo - Linking to @primavera/themes...
+        call npm link @primavera/themes
+    )
+
+    if %LINKED_FORMS% EQU 1 (
+        call echo - Linking to @primavera/forms...
+        call npm link @primavera/forms
+    )
 )
 
 if %LINT% EQU 1 (
@@ -153,6 +182,6 @@ echo.
 set /p=DONE! Hit ENTER to exit...
 
 
-@REM  *Review date: 12/04/2023*
+@REM  *Review date: 06/07/2023*
 @REM  *Tiago Eusébio @ TOEC*
 @REM  *© PRIMAVERA BSS*
